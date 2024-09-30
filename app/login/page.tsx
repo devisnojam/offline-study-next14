@@ -1,3 +1,4 @@
+import { Box, Heading } from "@chakra-ui/react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,5 +6,9 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <div className="div"></div>;
+  return (
+    <Box>
+      <Heading>Login</Heading>
+    </Box>
+  );
 }

@@ -2,7 +2,10 @@
 
 import { ChakraProvider } from "@chakra-ui/react";
 
-export default function ChakraUIProvider({
+/**
+ * @description 필요한 provider 정의
+ */
+export default function RootProviders({
   children,
 }: {
   children: React.ReactNode;
