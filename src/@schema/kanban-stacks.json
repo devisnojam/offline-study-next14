@@ -1,0 +1,26 @@
+[
+  {
+    "title": "TODO",
+    "status": "todo",
+    "style": {
+      "titleBgColor": "#7EF07E",
+      "panelBgColor": "#E8F8E880"
+    }
+  },
+  {
+    "title": "IN PROGRESS",
+    "status": "in_progress",
+    "style": {
+      "titleBgColor": "#F4F464",
+      "panelBgColor": "#F9F9D480"
+    }
+  },
+  {
+    "title": "DONE",
+    "status": "done",
+    "style": {
+      "titleBgColor": "#FB7E7E",
+      "panelBgColor": "#FFE1E180"
+    }
+  }
+]

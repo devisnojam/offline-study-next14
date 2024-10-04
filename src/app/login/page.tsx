@@ -1,4 +1,3 @@
-import React from "react";
 import { Metadata } from "next";
 import { Box, VStack, Input, Button, Heading } from "@chakra-ui/react";
 import { KakaoLoginBtn } from "@/@components/social-btns";
