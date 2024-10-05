@@ -24,10 +24,26 @@ export async function updateFormData(
   try {
     await KanbanService.updateKanbanBoardDetail(id, updatedData);
     revalidatePath("/board");
-
     return { message: `Item ${id} updated` };
   } catch (error) {
     console.error(error);
     return { message: `Item ${id} update failed` };
+  }
+}
+
+export async function deleteKanbanItem(
+  prevState: {
+    message: string;
+  },
+  formData: FormData
+) {
+  const id = formData.get("id") as unknown as string;
+  try {
+    await KanbanService.deleteKanbanItem(id);
+    revalidatePath("/board");
+    return { message: `Item ${id} deleted` };
+  } catch (error) {
+    console.error(error);
+    return { message: `Item ${id} delete failed` };
   }
 }

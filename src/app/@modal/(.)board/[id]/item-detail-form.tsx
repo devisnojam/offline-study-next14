@@ -35,7 +35,7 @@ interface Props {
 }
 
 export default function ItemDetailForm({ formData }: Props) {
-  const [actionState, formAction] = useFormState(updateFormData, {
+  const [formResult, formAction] = useFormState(updateFormData, {
     message: "",
   });
 
@@ -77,7 +77,7 @@ export default function ItemDetailForm({ formData }: Props) {
           <SubmitButton />
         </ButtonGroup>
 
-        {actionState.message && <Text>{actionState.message}</Text>}
+        {formResult.message && <Text>{formResult.message}</Text>}
       </VStack>
     </form>
   );

@@ -1,68 +1,78 @@
 "use client";
 
 import { kanbanItemSchema } from "@/@schema/kanban.schema";
+import { deleteKanbanItem } from "@/app/actions";
 import { Box, IconButton, Text } from "@chakra-ui/react";
 import Image from "next/image";
-
+import { useFormState } from "react-dom";
 
 interface Props {
   data: kanbanItemSchema;
 }
 
 export default function KanbanItem({ data }: Props) {
-  const handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    console.log("remove");
+  const [formResult, formAction] = useFormState(deleteKanbanItem, {
+    message: "",
+  });
+
+  const onSubmit = (formData: FormData) => {
+    formAction(formData);
   };
 
   return (
-    <Box
-      width="full"
-      height={14}
-      px={3}
-      py={3.5}
-      borderRadius={3}
-      bgColor="#F3F3F3"
-      display="flex"
-      flexDirection="row"
-      justifyContent="space-between"
-      alignItems="center"
-      _hover={{
-        md: {
-          bgColor: "#e0e0e0",
-        },
-      }}
-    >
+    <form action={onSubmit}>
+      <input type="hidden" name="id" value={data.id} />
       <Box
-        className="left"
+        width="full"
+        height={14}
+        px={3}
+        py={3.5}
+        borderRadius={3}
+        bgColor="#F3F3F3"
         display="flex"
-        flexDirection="column"
-        alignItems="flex-start"
-        gap="2px"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        _hover={{
+          md: {
+            bgColor: "#e0e0e0",
+          },
+        }}
       >
-        <Text as="span" fontSize="14px">
-          {data.title}
-        </Text>
-        <Text as="span" fontSize="14px">
-          {data.due_date}
-        </Text>
-      </Box>
+        <Box
+          className="left"
+          display="flex"
+          flexDirection="column"
+          alignItems="flex-start"
+          gap="2px"
+        >
+          <Text as="span" fontSize="14px">
+            {data.title}
+          </Text>
+          <Text as="span" fontSize="14px">
+            {data.due_date}
+          </Text>
+        </Box>
 
-      <IconButton
-        variant="outline"
-        aria-label="Remove"
-        padding={0.5}
-        border="none"
-        icon={
-          <Image
-            src="/imgs/remove_icon.svg"
-            alt="remove"
-            width={30}
-            height={30}
-          />
-        }
-        onClick={handleRemove}
-      />
-    </Box>
+        <IconButton
+          type="submit"
+          variant="outline"
+          aria-label="Remove"
+          padding={0.5}
+          border="none"
+          icon={
+            <Image
+              src="/imgs/remove_icon.svg"
+              alt="remove"
+              width={30}
+              height={30}
+            />
+          }
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        />
+      </Box>
+    </form>
   );
 }

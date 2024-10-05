@@ -30,8 +30,6 @@ export default class KanbanService {
     updatedData: Omit<kanbanItemSchema, "id" | "created_at" | "updated_at">
   ) {
     const kanbanItems = kanbanItemsData as kanbanItemSchema[];
-    console.log("kanbanItems: ", kanbanItems);
-
     const findedIndex = kanbanItems.findIndex((item) => item.id === Number(id));
     if (findedIndex === -1) {
       // TODO: 에러 인스턴스 생성
@@ -46,18 +44,27 @@ export default class KanbanService {
 
     kanbanItems[findedIndex] = updatedItem;
 
-    try {
-      fs.writeFileSync(
-        "./src/@schema/kanban-items.json",
-        JSON.stringify(kanbanItems, null, 2)
-      );
+    fs.writeFileSync(
+      "./src/@schema/kanban-items.json",
+      JSON.stringify(kanbanItems, null, 2)
+    );
+    return updatedItem;
+  }
 
-      return updatedItem;
-    } catch (error) {
+  static async deleteKanbanItem(id: string) {
+    const kanbanItems = kanbanItemsData as kanbanItemSchema[];
+    const findedIndex = kanbanItems.findIndex((item) => item.id === Number(id));
+    if (findedIndex === -1) {
       // TODO: 에러 인스턴스 생성
-      console.error(error);
+      throw new Error("Item not found");
     }
 
-    return updatedItem;
+    kanbanItems.splice(findedIndex, 1);
+
+    fs.writeFileSync(
+      "./src/@schema/kanban-items.json",
+      JSON.stringify(kanbanItems, null, 2)
+    );
+    return true;
   }
 }

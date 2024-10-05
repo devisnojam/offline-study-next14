@@ -1,7 +1,7 @@
 export type kanbanStatus = "todo" | "in_progress" | "done";
 
 export type kanbanItemSchema = {
-  id: number; // timestamp
+  id: number;
   status: kanbanStatus;
   title: string;
   description: string | undefined;
