@@ -3,7 +3,7 @@
 import { ChakraProvider as Provider, extendTheme } from "@chakra-ui/react";
 import { modalTheme } from "./custom-theme";
 
-const breakpoints = {
+export const breakpoints = {
   base: "0px",
   sm: "320px",
   md: "768px",
@@ -15,6 +15,9 @@ const breakpoints = {
 const theme = extendTheme({
   styles: {
     global: {
+      "*": {
+        border: "none",
+      },
       body: {
         minHeight: "100vh",
       },
@@ -29,7 +32,7 @@ const theme = extendTheme({
         paddingInlineEnd: 0,
       },
     },
-    Modal: modalTheme(),
+    Modal: modalTheme,
   },
   breakpoints,
 });

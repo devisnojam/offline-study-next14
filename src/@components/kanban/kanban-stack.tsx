@@ -1,3 +1,6 @@
+"use client";
+
+import { breakpoints } from "@/@providers/chakra-provider";
 import {
   AccordionButton,
   AccordionIcon,
@@ -6,6 +9,7 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import { PropsWithChildren } from "react";
 
 interface Props {
@@ -21,7 +25,7 @@ export default function KanbanStack({
   panelBgColor,
 }: PropsWithChildren<Props>) {
   return (
-    <AccordionItem flexGrow={1} maxWidth={{ base: "full", md: "300px" }}>
+    <StyledAccordionItem flexGrow={1} maxWidth={{ base: "full", lg: "300px" }}>
       <AccordionButton
         backgroundColor={titleBgColor}
         _hover={{ backgroundColor: titleBgColor }}
@@ -33,7 +37,7 @@ export default function KanbanStack({
       </AccordionButton>
 
       <AccordionPanel
-        height={{ base: "300px", md: "500px" }}
+        height={{ base: "300px", lg: "500px" }}
         padding={0}
         paddingInlineStart={0}
         paddingInlineEnd={0}
@@ -44,6 +48,16 @@ export default function KanbanStack({
           {children}
         </VStack>
       </AccordionPanel>
-    </AccordionItem>
+    </StyledAccordionItem>
   );
 }
+
+const StyledAccordionItem = styled(AccordionItem)`
+  @media (min-width: ${breakpoints.lg}) {
+    .chakra-collapse {
+      height: auto !important;
+      display: block !important;
+      opacity: 1 !important;
+    }
+  }
+`;

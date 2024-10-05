@@ -7,11 +7,11 @@ export default async function BoardPage() {
   const kanbanBoardDatas = await KanbanService.getKanbanBoard();
 
   return (
-    <Box width={{ base: "full", md: "900px" }} margin="0 auto">
+    <Box width={{ base: "full", md: "740px", lg: "900px" }} margin="0 auto">
       <KanbanGroup
         width="full"
         display="flex"
-        flexDirection={{ base: "column", md: "row" }}
+        flexDirection={{ base: "column", lg: "row" }}
       >
         {kanbanBoardDatas?.map((boardData) => (
           <KanbanStack
@@ -21,7 +21,11 @@ export default async function BoardPage() {
             panelBgColor={boardData.style.panelBgColor}
           >
             {boardData.items.map((item) => (
-              <Link href={`/board/${item.id}`} key={item.id}>
+              <Link
+                href={`/board/${item.id}`}
+                key={item.id}
+                style={{ width: "100%" }}
+              >
                 <KanbanItem key={item.id} data={item} />
               </Link>
             ))}

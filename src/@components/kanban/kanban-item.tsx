@@ -4,6 +4,7 @@ import { kanbanItemSchema } from "@/@schema/kanban.schema";
 import { Box, IconButton, Text } from "@chakra-ui/react";
 import Image from "next/image";
 
+
 interface Props {
   data: kanbanItemSchema;
 }
