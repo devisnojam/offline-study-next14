@@ -1,6 +1,7 @@
 import { KanbanGroup, KanbanItem, KanbanStack } from "@/@components/kanban";
 import KanbanService from "@/@services/kanban.service";
 import { Box } from "@chakra-ui/react";
+import Link from "next/link";
 
 export default async function BoardPage() {
   const kanbanBoardDatas = await KanbanService.getKanbanBoard();
@@ -20,7 +21,9 @@ export default async function BoardPage() {
             panelBgColor={boardData.style.panelBgColor}
           >
             {boardData.items.map((item) => (
-              <KanbanItem key={item.id} data={item} />
+              <Link href={`/board/${item.id}`} key={item.id}>
+                <KanbanItem key={item.id} data={item} />
+              </Link>
             ))}
           </KanbanStack>
         ))}

@@ -11,7 +11,16 @@ export default class KanbanService {
       ...stack,
       items: kanbanItems.filter((item) => item.status === stack.status),
     }));
-
     return kanbanBoard;
+  }
+
+  static async getKanbanBoardDetail(id: string) {
+    const kanbanItems = kanbanItemsData as kanbanItemSchema[];
+    const findedItem = kanbanItems.find((item) => item.id === Number(id));
+    if (!findedItem) {
+      // TODO: 에러 인스턴스 생성
+      throw new Error("Item not found");
+    }
+    return findedItem;
   }
 }

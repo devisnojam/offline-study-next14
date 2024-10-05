@@ -9,11 +9,6 @@ interface Props {
 }
 
 export default function KanbanItem({ data }: Props) {
-  const handleClickItem = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    console.log("click");
-  };
-
   const handleRemove = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     console.log("remove");
@@ -31,13 +26,11 @@ export default function KanbanItem({ data }: Props) {
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
-      cursor="pointer"
       _hover={{
         md: {
           bgColor: "#e0e0e0",
         },
       }}
-      onClick={handleClickItem}
     >
       <Box
         className="left"

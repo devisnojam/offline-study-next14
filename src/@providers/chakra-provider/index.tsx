@@ -1,6 +1,7 @@
 "use client";
 
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider as Provider, extendTheme } from "@chakra-ui/react";
+import { modalTheme } from "./custom-theme";
 
 const breakpoints = {
   base: "0px",
@@ -28,17 +29,15 @@ const theme = extendTheme({
         paddingInlineEnd: 0,
       },
     },
+    Modal: modalTheme(),
   },
   breakpoints,
 });
 
-/**
- * @description 필요한 provider 정의
- */
-export default function RootProviders({
+export default function ChakraProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <ChakraProvider theme={theme}>{children}</ChakraProvider>;
+  return <Provider theme={theme}>{children}</Provider>;
 }
