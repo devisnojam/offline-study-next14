@@ -21,11 +21,11 @@ const SubmitButton = () => {
   return (
     <Button
       type="submit"
-      colorScheme="blue"
+      colorScheme="red"
       isLoading={pending}
       aria-disabled={pending}
     >
-      저장
+      저장하기
     </Button>
   );
 };
@@ -71,9 +71,7 @@ export default function ItemDetailForm({ formData }: Props) {
         </FormControl>
 
         <ButtonGroup spacing="2" justifyContent="center">
-          <Button colorScheme="red" onClick={handleClose}>
-            취소
-          </Button>
+          <Button onClick={handleClose}>취소하기</Button>
           <SubmitButton />
         </ButtonGroup>
 
