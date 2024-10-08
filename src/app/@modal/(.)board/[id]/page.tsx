@@ -10,8 +10,8 @@ export default async function ModalBoardDetail({ params }: Props) {
   const detailData = await KanbanService.getKanbanBoardDetail(params.id);
 
   return (
-    <StatelessModal>
-      <ItemDetailForm formData={detailData}  />
+    <StatelessModal title="게시글 상세">
+      <ItemDetailForm formData={detailData} />
     </StatelessModal>
   );
 }

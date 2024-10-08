@@ -36,7 +36,7 @@ export default class KanbanService {
       throw new Error("Item not found");
     }
 
-    const updatedItem = {
+    const updatedItem: kanbanItemSchema = {
       ...kanbanItems[findedIndex],
       ...updatedData,
       updated_at: new Date().toISOString(),

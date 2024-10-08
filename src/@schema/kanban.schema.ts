@@ -4,7 +4,7 @@ export type kanbanItemSchema = {
   id: number;
   status: kanbanStatus;
   title: string;
-  description: string | undefined;
+  description?: string | undefined;
   due_date: string;
   created_at: string;
   updated_at: string;

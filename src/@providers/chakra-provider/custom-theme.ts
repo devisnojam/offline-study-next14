@@ -1,30 +1,30 @@
 import { modalAnatomy } from "@chakra-ui/anatomy";
 import { createMultiStyleConfigHelpers } from "@chakra-ui/styled-system";
 
-const {
-  definePartsStyle: modalPartsStyle,
-  defineMultiStyleConfig: modalMultiStyleConfig,
-} = createMultiStyleConfigHelpers(modalAnatomy.keys);
+const helper = createMultiStyleConfigHelpers(modalAnatomy.keys);
 
 export const modalTheme = (() => {
-  const modalBaseStyle = modalPartsStyle({
-    overlay: {},
-    dialog: {
-      width: "100%",
-      minHeight: "100vh",
-      margin: 0,
-    },
-  });
+  const { definePartsStyle, defineMultiStyleConfig } = helper;
 
-  const md = modalPartsStyle({
-    dialog: {
-      width: "initial",
-      minHeight: "initial",
-    },
-  });
+  const sizes = {
+    base: definePartsStyle({
+      dialog: {
+        width: { base: "100%", md: "400px" },
+        height: { base: "100vh", md: "auto" },
+        margin: 0,
+        borderRadius: { base: 0, md: "12px" },
+      },
+      header: {
+        fontSize: { base: "md", md: "lg" },
+        textAlign: "center",
+      },
+    }),
+  };
 
-  return modalMultiStyleConfig({
-    baseStyle: modalBaseStyle,
-    sizes: { md },
+  return defineMultiStyleConfig({
+    sizes,
+    defaultProps: {
+      size: "base",
+    },
   });
 })();
