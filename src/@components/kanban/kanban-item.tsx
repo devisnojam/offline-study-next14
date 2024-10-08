@@ -1,27 +1,41 @@
 "use client";
 
 import { kanbanItemSchema } from "@/@schema/kanban.schema";
-import { deleteKanbanItem } from "@/app/actions";
-import { Box, IconButton, Text } from "@chakra-ui/react";
+import { Box, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
-import { useFormState } from "react-dom";
+import ConfirmDialog from "../confirm-dialog";
 
 interface Props {
   data: kanbanItemSchema;
 }
 
 export default function KanbanItem({ data }: Props) {
-  const [formResult, formAction] = useFormState(deleteKanbanItem, {
-    message: "",
-  });
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [formResult, formAction] = useFormState(deleteKanbanItem, {
+  //   message: "",
+  // });
 
-  const onSubmit = (formData: FormData) => {
-    formAction(formData);
+  const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    onOpen();
+  };
+
+  const deleteItem = async () => {
+    const response = await fetch(`/api/board/${data.id}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+
+    if (result.success) {
+      console.log(result.message);
+      onClose();
+    } else {
+      console.error(result.message);
+    }
   };
 
   return (
-    <form action={onSubmit}>
-      <input type="hidden" name="id" value={data.id} />
+    <>
       <Box
         width="full"
         height={14}
@@ -68,11 +82,18 @@ export default function KanbanItem({ data }: Props) {
               height={30}
             />
           }
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
+          onClick={handleClickDelete}
         />
       </Box>
-    </form>
+
+      <ConfirmDialog
+        isOpen={isOpen}
+        title="티켓 삭제"
+        description={`선택하신 티켓을 삭제하시겠습니까?\n\n선택한 티켓 제목: ${data.title}`}
+        confirmButtonText="삭제하기"
+        onConfirm={deleteItem}
+        onClose={onClose}
+      />
+    </>
   );
 }

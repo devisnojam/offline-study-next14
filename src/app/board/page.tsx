@@ -3,6 +3,9 @@ import KanbanService from "@/@services/kanban.service";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 
+// 데이터 캐싱 무효화
+export const revalidate = 0;
+
 export default async function BoardPage() {
   const kanbanBoardDatas = await KanbanService.getKanbanBoard();
 

@@ -1,13 +1,22 @@
 "use client";
 
-import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/react";
+import {
+  Heading,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode | React.ReactNode[];
+  title?: string;
 }
 
-export default function StatelessModal({ children }: Props) {
+export default function StatelessModal({ children, title }: Props) {
   const router = useRouter();
 
   const handleClose = () => {
@@ -18,7 +27,15 @@ export default function StatelessModal({ children }: Props) {
     <Modal isOpen={true} isCentered onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
+        {title && (
+          <ModalHeader>
+            <Heading size="md">{title}</Heading>
+          </ModalHeader>
+        )}
+
         <ModalBody>{children}</ModalBody>
+
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

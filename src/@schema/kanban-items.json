@@ -2,19 +2,19 @@
   {
     "id": 1,
     "status": "todo",
-    "title": "Ticket 1",
+    "title": "Ticket 1수",
     "description": "Description 1",
     "due_date": "2024-11-01",
     "created_at": "2024-10-01T00:00:00Z",
-    "updated_at": "2024-10-05T17:04:39.307Z"
+    "updated_at": "2024-10-08T07:57:16.746Z"
   },
   {
     "id": 2,
-    "status": "in_progress",
+    "status": "todo",
     "title": "Ticket 2",
     "description": "Description 2",
     "due_date": "2024-11-02",
     "created_at": "2024-10-02T00:00:00Z",
-    "updated_at": "2024-10-05T17:04:34.682Z"
+    "updated_at": "2024-10-06T17:04:39.307Z"
   }
 ]
