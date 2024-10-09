@@ -1,5 +1,5 @@
+import { KanbanItemDetailForm } from "@/@components/kanban";
 import StatelessModal from "@/@components/stateless-modal";
-import ItemDetailForm from "@/app/@modal/(.)board/[id]/item-detail-form";
 import KanbanService from "@/@services/kanban.service";
 
 interface Props {
@@ -11,7 +11,7 @@ export default async function ModalBoardDetail({ params }: Props) {
 
   return (
     <StatelessModal title="게시글 상세">
-      <ItemDetailForm formData={detailData} />
+      <KanbanItemDetailForm formData={detailData} />
     </StatelessModal>
   );
 }

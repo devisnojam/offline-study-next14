@@ -1,7 +1,7 @@
 "use client";
 
 import { ChakraProvider as Provider, extendTheme } from "@chakra-ui/react";
-import { modalTheme } from "./custom-theme";
+import { containerTheme, modalTheme } from "./custom-theme";
 
 export const breakpoints = {
   base: "0px",
@@ -33,6 +33,7 @@ const theme = extendTheme({
       },
     },
     Modal: modalTheme,
+    Container: containerTheme,
   },
   breakpoints,
 });
