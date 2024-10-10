@@ -26,6 +26,7 @@ interface Props {
 }
 
 export default function ItemDetailForm({ formData }: Props) {
+  const router = useRouter();
   const { register, handleSubmit, formState } =
     useForm<KanbanItemValidationFormData>({
       defaultValues: formData,
@@ -44,11 +45,16 @@ export default function ItemDetailForm({ formData }: Props) {
     if (result.success) {
       alert("저장 되었습니다.");
       handleClose();
+    } else {
+      alert("저장에 실패했습니다.");
     }
   };
 
-  const router = useRouter();
-  const handleClose = () => router.back();
+  const handleClose = () => {
+    router.refresh();
+    // FIXME: /board 페이지 이동 시, 목록 데이터 갱신 이슈있음
+    setTimeout(() => router.back(), 200);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

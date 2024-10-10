@@ -1,12 +1,20 @@
-import fs from "node:fs";
 import { kanbanItemSchema, kanbanStackSchema } from "@/@schema/kanban.schema";
-import kanbanItemsData from "@/@schema/kanban-items.json";
-import kanbanStacksData from "@/@schema/kanban-stacks.json";
+import { readJSONFileAsync, writeJSONFileAsync } from "@/@libs/file-handler";
+
+const getKanbanData = async () => {
+  const [kanbanItems, kanbanStacks] = await Promise.all([
+    readJSONFileAsync("/static/kanban-items.json"),
+    readJSONFileAsync("/static/kanban-stacks.json"),
+  ]);
+  return { kanbanItems, kanbanStacks } as {
+    kanbanItems: kanbanItemSchema[];
+    kanbanStacks: Omit<kanbanStackSchema, "items">[];
+  };
+};
 
 export default class KanbanService {
   static async getKanbanBoard() {
-    const kanbanItems = kanbanItemsData as kanbanItemSchema[];
-    const kanbanStacks = kanbanStacksData as Omit<kanbanStackSchema, "items">[];
+    const { kanbanItems, kanbanStacks } = await getKanbanData();
 
     const kanbanBoard = kanbanStacks.map((stack) => ({
       ...stack,
@@ -16,7 +24,8 @@ export default class KanbanService {
   }
 
   static async getKanbanBoardDetail(id: string) {
-    const kanbanItems = kanbanItemsData as kanbanItemSchema[];
+    const { kanbanItems } = await getKanbanData();
+
     const findedItem = kanbanItems.find((item) => item.id === Number(id));
     if (!findedItem) {
       // TODO: 에러 인스턴스 생성
@@ -29,7 +38,7 @@ export default class KanbanService {
     id: string,
     updatedData: Omit<kanbanItemSchema, "id" | "created_at" | "updated_at">
   ) {
-    const kanbanItems = kanbanItemsData as kanbanItemSchema[];
+    const { kanbanItems } = await getKanbanData();
     const findedIndex = kanbanItems.findIndex((item) => item.id === Number(id));
     if (findedIndex === -1) {
       // TODO: 에러 인스턴스 생성
@@ -44,15 +53,12 @@ export default class KanbanService {
 
     kanbanItems[findedIndex] = updatedItem;
 
-    fs.writeFileSync(
-      "./src/@schema/kanban-items.json",
-      JSON.stringify(kanbanItems, null, 2)
-    );
+    await writeJSONFileAsync("/static/kanban-items.json", kanbanItems);
     return updatedItem;
   }
 
   static async deleteKanbanItem(id: string) {
-    const kanbanItems = kanbanItemsData as kanbanItemSchema[];
+    const { kanbanItems } = await getKanbanData();
     const findedIndex = kanbanItems.findIndex((item) => item.id === Number(id));
     if (findedIndex === -1) {
       // TODO: 에러 인스턴스 생성
@@ -61,10 +67,7 @@ export default class KanbanService {
 
     kanbanItems.splice(findedIndex, 1);
 
-    fs.writeFileSync(
-      "./src/@schema/kanban-items.json",
-      JSON.stringify(kanbanItems, null, 2)
-    );
+    await writeJSONFileAsync("/static/kanban-items.json", kanbanItems);
     return true;
   }
 }

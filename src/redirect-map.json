@@ -1,6 +1,6 @@
 {
   "/": {
-    "destination": "/login",
+    "destination": "/board",
     "permanent": false
   }
 }

@@ -1,6 +1,6 @@
 import KanbanService from "@/@services/kanban.service";
 import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validation";
-import { setTimeout } from "timers/promises";
+import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
 export interface APIResponseSchema<T> {
@@ -23,8 +23,7 @@ export async function PUT(request: Request, { params }: Params) {
       validatedData
     );
 
-    await setTimeout(1000); // UI 확인을 위한 임시 딜레이
-
+    revalidatePath("/board");
     return Response.json(
       {
         success: true,
@@ -58,6 +57,7 @@ export async function DELETE(request: Request, { params }: Params) {
     const { id } = params;
 
     await KanbanService.deleteKanbanItem(id);
+    revalidatePath("/board");
     return Response.json(
       { success: true, message: "Item deleted successfully" },
       { status: 200 }

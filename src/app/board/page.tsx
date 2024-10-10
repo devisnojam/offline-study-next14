@@ -9,6 +9,8 @@ export const revalidate = 0;
 export default async function BoardPage() {
   const kanbanBoardDatas = await KanbanService.getKanbanBoard();
 
+  console.log("kanbanBoardDatas: ", kanbanBoardDatas[0].items);
+
   return (
     <Box width={{ base: "full", md: "740px", lg: "900px" }} margin="0 auto">
       <KanbanGroup

@@ -18,7 +18,6 @@ interface Props {
 
 export default function StatelessModal({ children, title }: Props) {
   const router = useRouter();
-
   const handleClose = () => {
     router.back();
   };

@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
     "start": "next start",
-    "lint": "next lint"
+    "sst:d-dev": "npx sst dev",
+    "sst:d-prod": "npx sst deploy --stage production",
+    "sst:r-dev": "npx sst remove",
+    "sst:r-prod": "npx sst remove --stage production"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.2.0",
@@ -19,6 +23,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
+    "sst": "3.1.73",
     "zod": "^3.23.8"
   },
   "devDependencies": {
