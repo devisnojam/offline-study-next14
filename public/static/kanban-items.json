@@ -2,11 +2,11 @@
   {
     "id": 1,
     "status": "todo",
-    "title": "Ticket 1인천d",
+    "title": "Ticket 1수정2",
     "description": "Description 1",
     "due_date": "2024-11-01",
     "created_at": "2024-10-01T00:00:00Z",
-    "updated_at": "2024-10-09T07:44:15.606Z"
+    "updated_at": "2024-10-10T07:43:47.627Z"
   },
   {
     "id": 2,
