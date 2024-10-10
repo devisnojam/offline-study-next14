@@ -21,3 +21,4 @@
 - 클라이언트 form 데이터를 서버에 전달하는 부분은 'Server Action' 방식보다는 기존처럼 'API' 를 사용하는 방식이 UI UX 부분에서 더 나아보인다.
 
 ssh test
+test
