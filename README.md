@@ -11,6 +11,7 @@
 - [v] 티켓 삭제 데이터
 
 ## 배포 구성
+
 - SST 를 사용해 AWS 클라우드에 배포
 - [SST 공식사이트 바로가기](https://sst.dev/)
 
@@ -18,3 +19,5 @@
 
 - 서버에서 데이터를 가져오는 부분은 Server Component 를 활용해 server 에서 가져오는 방향이 나을거 같다. (SEO 처리)
 - 클라이언트 form 데이터를 서버에 전달하는 부분은 'Server Action' 방식보다는 기존처럼 'API' 를 사용하는 방식이 UI UX 부분에서 더 나아보인다.
+
+ssh test
