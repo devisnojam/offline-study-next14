@@ -1,26 +1,31 @@
 import { kanbanItemSchema, kanbanStackSchema } from "@/@schema/kanban.schema";
 import { readJSONFileAsync, writeJSONFileAsync } from "@/@libs/file-handler";
 
+type KanbanBoardData = {
+  kanbanItems: kanbanItemSchema[];
+  kanbanStacks: Omit<kanbanStackSchema, "items">[];
+};
+
 const getKanbanData = async () => {
   const [kanbanItems, kanbanStacks] = await Promise.all([
     readJSONFileAsync("/static/kanban-items.json"),
     readJSONFileAsync("/static/kanban-stacks.json"),
   ]);
-  return { kanbanItems, kanbanStacks } as {
-    kanbanItems: kanbanItemSchema[];
-    kanbanStacks: Omit<kanbanStackSchema, "items">[];
-  };
+  return { kanbanItems, kanbanStacks } as KanbanBoardData;
 };
 
+export type KanbanBoardDatas = kanbanStackSchema[];
 export default class KanbanService {
-  static async getKanbanBoard() {
+  static async getKanbanBoardDatas() {
     const { kanbanItems, kanbanStacks } = await getKanbanData();
 
-    const kanbanBoard = kanbanStacks.map((stack) => ({
-      ...stack,
+    const kanbanBoardDatas = kanbanStacks.map((stack) => ({
+      style: stack.style,
+      title: stack.title,
+      status: stack.status,
       items: kanbanItems.filter((item) => item.status === stack.status),
     }));
-    return kanbanBoard;
+    return kanbanBoardDatas;
   }
 
   static async getKanbanBoardDetail(id: string) {

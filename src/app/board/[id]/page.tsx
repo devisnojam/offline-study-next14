@@ -2,9 +2,6 @@ import { KanbanItemDetailForm } from "@/@components/kanban";
 import KanbanService from "@/@services/kanban.service";
 import { Box, Container, Heading } from "@chakra-ui/react";
 
-// 데이터 캐싱 무효화
-export const revalidate = 0;
-
 interface BoardDetailPageProps {
   params: { id: string };
 }

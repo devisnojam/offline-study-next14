@@ -6,11 +6,21 @@ interface Props {
   params: { id: string };
 }
 
-export default async function ModalBoardDetail({ params }: Props) {
+export default async function ModalBoardDetailPage({ params }: Props) {
   const detailData = await KanbanService.getKanbanBoardDetail(params.id);
 
+  // return (
+  //   <StateModal>
+  //     <RSCDataFetcher
+  //       fetcher={() => KanbanService.getKanbanBoardDetail(params.id)}
+  //     >
+        
+  //     </RSCDataFetcher>
+  //   </StateModal>
+  // );
+
   return (
-    <StatelessModal title="게시글 상세">
+    <StatelessModal open={true} title="게시글 상세">
       <KanbanItemDetailForm formData={detailData} />
     </StatelessModal>
   );

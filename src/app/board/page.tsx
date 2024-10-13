@@ -1,15 +1,17 @@
 import { KanbanGroup, KanbanItem, KanbanStack } from "@/@components/kanban";
-import KanbanService from "@/@services/kanban.service";
+import { KanbanBoardDatas } from "@/@services/kanban.service";
+import { APIResponseBody } from "@/@types/api.type";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 
-// 데이터 캐싱 무효화
-export const revalidate = 0;
-
 export default async function BoardPage() {
-  const kanbanBoardDatas = await KanbanService.getKanbanBoard();
+  const kanbanBoardDatas = await fetch("http://localhost:3000/api/board", {
+    cache: "no-store",
+  })
+    .then((res) => res.json())
+    .then((result: APIResponseBody<KanbanBoardDatas>) => result.data);
 
-  console.log("kanbanBoardDatas: ", kanbanBoardDatas[0].items);
+  console.log("kanbanBoardDatas: ", kanbanBoardDatas[0]);
 
   return (
     <Box width={{ base: "full", md: "740px", lg: "900px" }} margin="0 auto">
@@ -18,7 +20,7 @@ export default async function BoardPage() {
         display="flex"
         flexDirection={{ base: "column", lg: "row" }}
       >
-        {kanbanBoardDatas?.map((boardData) => (
+        {kanbanBoardDatas.map((boardData) => (
           <KanbanStack
             key={boardData.status}
             stackTitle={boardData.title}
