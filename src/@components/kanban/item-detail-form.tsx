@@ -1,11 +1,11 @@
 "use client";
 
 import { kanbanItemSchema } from "@/@schema/kanban.schema";
+import { APIResponseBody } from "@/@types/api.type";
 import {
   KanbanItemValidationFormData,
   kanbanItemValidationSchema,
 } from "@/@validations/kanban-item.validation";
-import { APIResponseSchema } from "@/app/api/board/[id]/route";
 import {
   Button,
   FormControl,
@@ -18,15 +18,18 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { PropsWithChildren } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
   formData: kanbanItemSchema;
+  onCloseModal?: () => void;
 }
 
-export default function ItemDetailForm({ formData }: Props) {
-  const router = useRouter();
+export default function ItemDetailForm({
+  formData,
+  onCloseModal,
+}: PropsWithChildren<Props>) {
   const { register, handleSubmit, formState } =
     useForm<KanbanItemValidationFormData>({
       defaultValues: formData,
@@ -41,7 +44,7 @@ export default function ItemDetailForm({ formData }: Props) {
       body: JSON.stringify(data),
     });
     const result =
-      (await response.json()) as APIResponseSchema<KanbanItemValidationFormData>;
+      (await response.json()) as APIResponseBody<KanbanItemValidationFormData>;
     if (result.success) {
       alert("저장 되었습니다.");
       handleClose();
@@ -51,9 +54,7 @@ export default function ItemDetailForm({ formData }: Props) {
   };
 
   const handleClose = () => {
-    router.refresh();
-    // FIXME: /board 페이지 이동 시, 목록 데이터 갱신 이슈있음
-    setTimeout(() => router.back(), 200);
+    onCloseModal?.();
   };
 
   return (

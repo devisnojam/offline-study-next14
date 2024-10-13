@@ -3,12 +3,6 @@ import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validatio
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
-export interface APIResponseSchema<T> {
-  success: boolean;
-  message: string;
-  data?: T;
-}
-
 interface Params {
   params: { id: string };
 }
@@ -23,7 +17,6 @@ export async function PUT(request: Request, { params }: Params) {
       validatedData
     );
 
-    revalidatePath("/board");
     return Response.json(
       {
         success: true,
