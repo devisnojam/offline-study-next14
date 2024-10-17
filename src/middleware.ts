@@ -8,7 +8,9 @@ type RedirectEntry = {
 };
 
 export async function middleware(request: NextRequest) {
+  console.log("======================");
   console.log("middleware request: ", request.nextUrl.pathname);
+  console.log("======================");
 
   const pathname = request.nextUrl.pathname;
   const redirectEntry: RedirectEntry | undefined = (

@@ -6,6 +6,7 @@ import {
   KanbanItemValidationFormData,
   kanbanItemValidationSchema,
 } from "@/@validations/kanban-item.validation";
+import { useModalProvider } from "@/app/@modal/modal-provider";
 import {
   Button,
   FormControl,
@@ -23,18 +24,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
   formData: kanbanItemSchema;
-  onCloseModal?: () => void;
 }
 
-export default function ItemDetailForm({
-  formData,
-  onCloseModal,
-}: PropsWithChildren<Props>) {
+export default function ItemDetailForm({ formData }: PropsWithChildren<Props>) {
   const { register, handleSubmit, formState } =
     useForm<KanbanItemValidationFormData>({
       defaultValues: formData,
       resolver: zodResolver(kanbanItemValidationSchema),
     });
+  const { onCloseModal } = useModalProvider();
 
   const onSubmit: SubmitHandler<KanbanItemValidationFormData> = async (
     data
@@ -46,15 +44,12 @@ export default function ItemDetailForm({
     const result =
       (await response.json()) as APIResponseBody<KanbanItemValidationFormData>;
     if (result.success) {
-      alert("저장 되었습니다.");
-      handleClose();
+      // alert("저장 되었습니다.");
+
+      onCloseModal();
     } else {
       alert("저장에 실패했습니다.");
     }
-  };
-
-  const handleClose = () => {
-    onCloseModal?.();
   };
 
   return (
@@ -112,7 +107,7 @@ export default function ItemDetailForm({
         </FormControl>
 
         <ButtonGroup spacing="2" justifyContent="center">
-          <Button onClick={handleClose}>취소하기</Button>
+          <Button onClick={onCloseModal}>취소하기</Button>
           <Button
             type="submit"
             colorScheme="red"

@@ -1,6 +1,5 @@
 import KanbanService from "@/@services/kanban.service";
 import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validation";
-import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
 interface Params {
@@ -11,6 +10,7 @@ export async function PUT(request: Request, { params }: Params) {
   try {
     const { id } = params;
     const formData = await request.json();
+
     const validatedData = kanbanItemValidationSchema.parse(formData);
     const updatedResult = await KanbanService.updateKanbanBoardDetail(
       id,
@@ -48,9 +48,8 @@ export async function PUT(request: Request, { params }: Params) {
 export async function DELETE(request: Request, { params }: Params) {
   try {
     const { id } = params;
-
     await KanbanService.deleteKanbanItem(id);
-    revalidatePath("/board");
+
     return Response.json(
       { success: true, message: "Item deleted successfully" },
       { status: 200 }
