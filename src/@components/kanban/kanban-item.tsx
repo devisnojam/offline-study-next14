@@ -11,9 +11,6 @@ interface Props {
 
 export default function KanbanItem({ data }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [formResult, formAction] = useFormState(deleteKanbanItem, {
-  //   message: "",
-  // });
 
   const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

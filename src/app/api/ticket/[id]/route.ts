@@ -1,5 +1,6 @@
 import KanbanService from "@/@services/kanban.service";
 import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validation";
+import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 
 interface Params {
@@ -16,6 +17,8 @@ export async function PUT(request: Request, { params }: Params) {
       id,
       validatedData
     );
+
+    revalidatePath("/");
 
     return Response.json(
       {

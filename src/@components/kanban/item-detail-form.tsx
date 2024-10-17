@@ -6,7 +6,7 @@ import {
   KanbanItemValidationFormData,
   kanbanItemValidationSchema,
 } from "@/@validations/kanban-item.validation";
-import { useModalProvider } from "@/app/@modal/modal-provider";
+import { useModalProvider } from "@/@providers/modal-provider";
 import {
   Button,
   FormControl,
@@ -37,16 +37,15 @@ export default function ItemDetailForm({ formData }: PropsWithChildren<Props>) {
   const onSubmit: SubmitHandler<KanbanItemValidationFormData> = async (
     data
   ) => {
-    const response = await fetch(`/api/board/${formData.id}`, {
+    const response = await fetch(`/api/ticket/${formData.id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     });
     const result =
       (await response.json()) as APIResponseBody<KanbanItemValidationFormData>;
     if (result.success) {
-      // alert("저장 되었습니다.");
-
-      onCloseModal();
+      console.log("저장 되었습니다.");
+      onCloseModal({ isRefresh: true });
     } else {
       alert("저장에 실패했습니다.");
     }
@@ -107,7 +106,7 @@ export default function ItemDetailForm({ formData }: PropsWithChildren<Props>) {
         </FormControl>
 
         <ButtonGroup spacing="2" justifyContent="center">
-          <Button onClick={onCloseModal}>취소하기</Button>
+          <Button onClick={() => onCloseModal()}>취소하기</Button>
           <Button
             type="submit"
             colorScheme="red"

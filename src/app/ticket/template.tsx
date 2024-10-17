@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React, { PropsWithChildren } from "react";
-import ModalProvider from "../@modal/modal-provider";
+import ModalProvider from "../../@providers/modal-provider";
 
 export default function ModalTemplate({ children }: PropsWithChildren) {
   console.log("ModalTemplate");

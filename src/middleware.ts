@@ -2,17 +2,27 @@ import RedirectMap from "./redirect-map.json";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const printPathname = (pathname: string, method: string) => {
+  if (pathname.includes("api")) {
+    console.log("======================");
+    console.log("미들웨어 API 요청: ", method, ",", pathname);
+    console.log("======================");
+  } else if (!/\.[^/]+$/.test(pathname.split("/").pop() || "")) {
+    console.log("======================");
+    console.log("미들웨어 ROUTE 요청: ", method, ",", pathname);
+    console.log("======================");
+  }
+};
+
 type RedirectEntry = {
   destination: string;
   permanent: boolean;
 };
 
 export async function middleware(request: NextRequest) {
-  console.log("======================");
-  console.log("middleware request: ", request.nextUrl.pathname);
-  console.log("======================");
-
   const pathname = request.nextUrl.pathname;
+  printPathname(pathname, request.method);
+
   const redirectEntry: RedirectEntry | undefined = (
     RedirectMap as Record<string, RedirectEntry>
   )[pathname];

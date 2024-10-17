@@ -1,14 +1,11 @@
 import { KanbanItemDetailForm } from "@/@components/kanban";
-import KanbanService from "@/@services/kanban.service";
+import { getTicketDetailData } from "@/app/actions";
 
 interface Props {
   params: { id: string };
 }
 
 export default async function TicketDetailPage({ params }: Props) {
-  console.log("TicketDetailPage");
-
-  const detailData = await KanbanService.getKanbanBoardDetail(params.id);
-
+  const detailData = await getTicketDetailData(params.id);
   return <KanbanItemDetailForm formData={detailData} />;
 }
