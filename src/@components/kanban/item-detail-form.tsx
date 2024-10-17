@@ -45,7 +45,7 @@ export default function ItemDetailForm({ formData }: PropsWithChildren<Props>) {
       (await response.json()) as APIResponseBody<KanbanItemValidationFormData>;
     if (result.success) {
       console.log("저장 되었습니다.");
-      onCloseModal({ isRefresh: true });
+      onCloseModal();
     } else {
       alert("저장에 실패했습니다.");
     }

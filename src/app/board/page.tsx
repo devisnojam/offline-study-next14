@@ -7,16 +7,13 @@ import { headers } from "next/headers";
 import { getBoardDatas } from "../actions";
 
 export default async function BoardPage() {
-  const kanbanBoardDatas = await getBoardDatas();
+  // const kanbanBoardDatas = await getBoardDatas();
+
+  const kanbanBoardDatas = await fetch("http://localhost:3000/api/board")
+    .then((res) => res.json())
+    .then((result: APIResponseBody<KanbanBoardDatas>) => result.data);
 
   console.log("kanbanBoardDatas[0]: ", kanbanBoardDatas[0].items[0]);
-
-  // const kanbanBoardDatas = await fetch("http://localhost:3000/api/board", {
-  //   cache: "no-store",
-  // })
-  //   .then((res) => res.json())
-  //   .then((result: APIResponseBody<KanbanBoardDatas>) => result.data);
-
   return (
     <Box width={{ base: "full", md: "740px", lg: "900px" }} margin="0 auto">
       <KanbanGroup

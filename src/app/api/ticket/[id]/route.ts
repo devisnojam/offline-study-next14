@@ -7,6 +7,35 @@ interface Params {
   params: { id: string };
 }
 
+export async function GET(request: Request, { params }: Params) {
+  try {
+    const { id } = params;
+    const detailData = await KanbanService.getKanbanBoardDetail(id);
+    return Response.json({
+      success: true,
+      message: "티켓 상세 데이터를 성공적으로 불러왔습니다.",
+      data: detailData,
+    });
+  } catch (error: unknown) {
+    if (error instanceof ZodError) {
+      return Response.json(
+        { success: false, message: error.message, errors: error.errors },
+        { status: 400 }
+      );
+    }
+    if (error instanceof Error) {
+      return Response.json(
+        { success: false, message: error.message },
+        { status: 500 }
+      );
+    }
+    return Response.json(
+      { success: false, message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(request: Request, { params }: Params) {
   try {
     const { id } = params;
@@ -18,7 +47,7 @@ export async function PUT(request: Request, { params }: Params) {
       validatedData
     );
 
-    revalidatePath("/");
+    revalidatePath("/board");
 
     return Response.json(
       {
@@ -52,7 +81,7 @@ export async function DELETE(request: Request, { params }: Params) {
   try {
     const { id } = params;
     await KanbanService.deleteKanbanItem(id);
-
+    revalidatePath("/board");
     return Response.json(
       { success: true, message: "Item deleted successfully" },
       { status: 200 }

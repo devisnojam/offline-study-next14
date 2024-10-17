@@ -6,6 +6,7 @@ interface Props {
 }
 
 export default async function TicketDetailPage({ params }: Props) {
-  const detailData = await getTicketDetailData(params.id);
+  const { id } = await params;
+  const detailData = await getTicketDetailData(id);
   return <KanbanItemDetailForm formData={detailData} />;
 }

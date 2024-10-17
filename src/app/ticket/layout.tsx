@@ -11,18 +11,21 @@ import { useRouter } from "next/navigation";
 import React, { PropsWithChildren } from "react";
 import ModalProvider from "../../@providers/modal-provider";
 
-export default function ModalTemplate({ children }: PropsWithChildren) {
-  console.log("ModalTemplate");
-
+export default function ModalLayout({ children }: PropsWithChildren) {
   const router = useRouter();
 
   const handleClose = () => {
-    // router.refresh();
     router.back();
   };
 
   return (
-    <Modal isOpen isCentered onClose={handleClose}>
+    <Modal
+      isOpen
+      isCentered
+      closeOnEsc={false}
+      closeOnOverlayClick={false}
+      onClose={handleClose}
+    >
       <ModalOverlay />
       <ModalContent>
         {/* {title && (
