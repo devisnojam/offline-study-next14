@@ -4,12 +4,14 @@ import { kanbanItemSchema } from "@/@schema/kanban.schema";
 import { Box, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
 import ConfirmDialog from "../confirm-dialog";
+import { useRouter } from "next/navigation";
 
 interface Props {
   data: kanbanItemSchema;
 }
 
 export default function KanbanItem({ data }: Props) {
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -18,13 +20,14 @@ export default function KanbanItem({ data }: Props) {
   };
 
   const deleteItem = async () => {
-    const response = await fetch(`/api/board/${data.id}`, {
+    const response = await fetch(`/api/ticket/${data.id}`, {
       method: "DELETE",
     });
     const result = await response.json();
 
     if (result.success) {
-      console.log(result.message);
+      alert(result.message);
+      router.refresh();
       onClose();
     } else {
       console.error(result.message);

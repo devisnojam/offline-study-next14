@@ -44,8 +44,8 @@ export default function ItemDetailForm({ formData }: PropsWithChildren<Props>) {
     const result =
       (await response.json()) as APIResponseBody<KanbanItemValidationFormData>;
     if (result.success) {
-      console.log("저장 되었습니다.");
-      onCloseModal();
+      alert("저장 되었습니다.");
+      onCloseModal("/board");
     } else {
       alert("저장에 실패했습니다.");
     }

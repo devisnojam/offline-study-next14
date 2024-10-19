@@ -1,6 +1,7 @@
 import KanbanService from "@/@services/kanban.service";
 import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validation";
 import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 import { ZodError } from "zod";
 
 interface Params {
@@ -9,8 +10,11 @@ interface Params {
 
 export async function GET(request: Request, { params }: Params) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const detailData = await KanbanService.getKanbanBoardDetail(id);
+    if (!detailData) {
+      notFound();
+    }
     return Response.json({
       success: true,
       message: "티켓 상세 데이터를 성공적으로 불러왔습니다.",
@@ -38,7 +42,7 @@ export async function GET(request: Request, { params }: Params) {
 
 export async function PUT(request: Request, { params }: Params) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const formData = await request.json();
 
     const validatedData = kanbanItemValidationSchema.parse(formData);
@@ -46,8 +50,6 @@ export async function PUT(request: Request, { params }: Params) {
       id,
       validatedData
     );
-
-    revalidatePath("/board");
 
     return Response.json(
       {
@@ -81,9 +83,9 @@ export async function DELETE(request: Request, { params }: Params) {
   try {
     const { id } = params;
     await KanbanService.deleteKanbanItem(id);
-    revalidatePath("/board");
+    revalidatePath(`/ticket/${id}`);
     return Response.json(
-      { success: true, message: "Item deleted successfully" },
+      { success: true, message: "해당 티켓이 삭제되었습니다." },
       { status: 200 }
     );
   } catch (error: unknown) {

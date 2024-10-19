@@ -29,14 +29,9 @@ export default class KanbanService {
   }
 
   static async getKanbanBoardDetail(id: string) {
-    console.log("server action getKanbanBoardDetail");
-
     const { kanbanItems } = await getKanbanData();
     const findedItem = kanbanItems.find((item) => item.id === Number(id));
-    if (!findedItem) {
-      // TODO: 에러 인스턴스 생성
-      throw new Error("Item not found");
-    }
+    if (!findedItem) return null;
     return findedItem;
   }
 
