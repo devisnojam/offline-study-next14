@@ -1,12 +1,12 @@
 "use client";
 
+import { useModalProvider } from "@/@providers/modal-provider";
 import { kanbanItemSchema } from "@/@schema/kanban.schema";
 import { APIResponseBody } from "@/@types/api.type";
 import {
   KanbanItemValidationFormData,
   kanbanItemValidationSchema,
 } from "@/@validations/kanban-item.validation";
-import { useModalProvider } from "@/@providers/modal-provider";
 import {
   Button,
   FormControl,
@@ -26,7 +26,9 @@ interface Props {
   formData: kanbanItemSchema;
 }
 
-export default function ItemDetailForm({ formData }: PropsWithChildren<Props>) {
+export default function TicketDetailForm({
+  formData,
+}: PropsWithChildren<Props>) {
   const { register, handleSubmit, formState } =
     useForm<KanbanItemValidationFormData>({
       defaultValues: formData,

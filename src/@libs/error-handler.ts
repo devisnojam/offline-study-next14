@@ -1,40 +1,24 @@
-import { StatusCodes } from 'http-status-codes';
+import { StatusCodes } from "http-status-codes";
 
-export interface ErrorResponse {
+type InternalServerErrorName = "FILE_ACCESS_ERROR" | "VALIDATION_ERROR";
+
+type InternalServerErrorConstructor = {
+  name: InternalServerErrorName;
   message: string;
-  status: number;
-  stack?: string;
-}
+  status?: keyof typeof StatusCodes;
+  options?: ErrorOptions;
+};
 
-export class ServerError extends Error {
-  status: number;
-  
-  constructor(message: string, status: number = StatusCodes.INTERNAL_SERVER_ERROR) {
-    super(message);
-    this.name = 'ServerError';
-    this.status = status;
-  }
-}
-
-export function handleError(
-  error: Error,
-  message: string = '서버 오류가 발생했습니다.',
-  statusCode: number = StatusCodes.INTERNAL_SERVER_ERROR
-): Response {
-  console.error(error);
-
-  const errorResponse: ErrorResponse = {
+export class InternalServerError extends Error {
+  readonly status: StatusCodes;
+  constructor({
+    name,
     message,
-    status: statusCode,
-  };
-
-  if (process.env.NODE_ENV !== 'production') {
-    errorResponse.stack = error.stack;
+    status = "INTERNAL_SERVER_ERROR",
+    options,
+  }: InternalServerErrorConstructor) {
+    super(message, options);
+    this.name = name;
+    this.status = StatusCodes[status];
   }
-
-  return Response.json(errorResponse, { status: statusCode });
-}
-
-export function isServerError(error: unknown): error is ServerError {
-  return error instanceof ServerError;
 }

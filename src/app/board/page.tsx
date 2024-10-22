@@ -5,7 +5,7 @@ import { APIResponseBody } from "@/@types/api.type";
 import { KanbanBoardDatas } from "@/@services/kanban.service";
 
 export default async function BoardPage() {
-  const kanbanBoardDatas = await fetch("http://localhost:3000/api/board")
+  const kanbanBoardDatas = await fetch(`${process.env.APP_URL}/api/board`)
     .then((res) => res.json())
     .then((result: APIResponseBody<KanbanBoardDatas>) => result.data);
 

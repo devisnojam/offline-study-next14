@@ -1,7 +1,6 @@
 import KanbanService from "@/@services/kanban.service";
 import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validation";
 import { revalidatePath } from "next/cache";
-import { notFound } from "next/navigation";
 import { ZodError } from "zod";
 
 interface Params {
@@ -13,7 +12,7 @@ export async function GET(request: Request, { params }: Params) {
     const { id } = await params;
     const detailData = await KanbanService.getKanbanBoardDetail(id);
     if (!detailData) {
-      notFound();
+      return 
     }
     return Response.json({
       success: true,
