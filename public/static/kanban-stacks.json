@@ -5,7 +5,8 @@
     "style": {
       "titleBgColor": "#7EF07E",
       "panelBgColor": "#E8F8E880"
-    }
+    },
+    "tickets": []
   },
   {
     "title": "진행 중",
@@ -13,7 +14,8 @@
     "style": {
       "titleBgColor": "#F4F464",
       "panelBgColor": "#F9F9D480"
-    }
+    },
+    "tickets": []
   },
   {
     "title": "완료",
@@ -21,6 +23,7 @@
     "style": {
       "titleBgColor": "#FB7E7E",
       "panelBgColor": "#FFE1E180"
-    }
+    },
+    "tickets": []
   }
 ]

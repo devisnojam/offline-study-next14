@@ -12,9 +12,9 @@ export async function excuteRedirect(
 }
 
 export async function getBoardDatas() {
-  return KanbanService.getKanbanBoardDatas();
+  return KanbanService.getKanbanBoards();
 }
 
 export async function getTicketDetailData(id: string) {
-  return KanbanService.getKanbanBoardDetail(id);
+  return KanbanService.getTicket(id);
 }

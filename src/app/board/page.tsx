@@ -1,13 +1,15 @@
 import { KanbanGroup, KanbanItem, KanbanStack } from "@/@components/kanban";
+import { TKanbanStackSchema } from "@/@schema/kanban.schema";
+import { APIResponseBody } from "@/@types/type";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
-import { APIResponseBody } from "@/@types/api.type";
-import { KanbanBoardDatas } from "@/@services/kanban.service";
 
 export default async function BoardPage() {
-  const kanbanBoardDatas = await fetch(`${process.env.APP_URL}/api/board`)
+  const { result: kanbanBoards } = await fetch(
+    `${process.env.APP_URL}/api/board`
+  )
     .then((res) => res.json())
-    .then((result: APIResponseBody<KanbanBoardDatas>) => result.data);
+    .then((result) => result as APIResponseBody<TKanbanStackSchema[]>);
 
   return (
     <Box width={{ base: "full", md: "740px", lg: "900px" }} margin="0 auto">
@@ -16,20 +18,20 @@ export default async function BoardPage() {
         display="flex"
         flexDirection={{ base: "column", lg: "row" }}
       >
-        {kanbanBoardDatas.map((boardData) => (
+        {kanbanBoards.map((boardData) => (
           <KanbanStack
             key={boardData.status}
             stackTitle={boardData.title}
             titleBgColor={boardData.style.titleBgColor}
             panelBgColor={boardData.style.panelBgColor}
           >
-            {boardData.items.map((item) => (
+            {boardData.tickets.map((ticket) => (
               <Link
-                href={`/ticket/${item.id}`}
-                key={item.id}
+                href={`/ticket/${ticket.id}`}
+                key={ticket.id}
                 style={{ width: "100%" }}
               >
-                <KanbanItem key={item.id} data={item} />
+                <KanbanItem key={ticket.id} ticketData={ticket} />
               </Link>
             ))}
           </KanbanStack>

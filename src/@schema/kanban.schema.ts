@@ -1,8 +1,8 @@
-export type kanbanStatus = "todo" | "in_progress" | "done";
+export type TKanbanStatus = "todo" | "in_progress" | "done";
 
-export type kanbanItemSchema = {
+export type TTicketSchema = {
   id: number;
-  status: kanbanStatus;
+  status: TKanbanStatus;
   title: string;
   description?: string | undefined;
   due_date: string;
@@ -10,10 +10,10 @@ export type kanbanItemSchema = {
   updated_at: string;
 };
 
-export type kanbanStackSchema = {
+export type TKanbanStackSchema = {
   title: string;
-  status: kanbanStatus;
-  items: kanbanItemSchema[];
+  status: TKanbanStatus;
+  tickets: TTicketSchema[]
   style: {
     titleBgColor: `#${string}`;
     panelBgColor: `#${string}`;

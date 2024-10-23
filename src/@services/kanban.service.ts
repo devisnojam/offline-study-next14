@@ -1,79 +1,96 @@
-import { kanbanItemSchema, kanbanStackSchema } from "@/@schema/kanban.schema";
+import { TTicketSchema, TKanbanStackSchema } from "@/@schema/kanban.schema";
 import { readJSONFileAsync, writeJSONFileAsync } from "@/@libs/file-handler";
-import { InternalServerError } from "@/@libs/error-handler";
+import { InternalServerError } from "@/@libs/internal-error";
+import { Throwable } from "@/@types/type";
 
-type KanbanBoardData = {
-  kanbanItems: kanbanItemSchema[];
-  kanbanStacks: Omit<kanbanStackSchema, "items">[];
-};
+const JSON_FILE_PATH = {
+  kanbanStacks: "/static/kanban-stacks.json",
+  tickets: "/static/tickets.json",
+} as const;
 
+// fixme: 함수 분리 - readFile 호출은 서비스 메소드에서 직접 호출하기
 const getKanbanData = async () => {
-  const [kanbanItems, kanbanStacks] = await Promise.all([
-    readJSONFileAsync("/static/kanban-items.json"),
-    readJSONFileAsync("/static/kanban-stacks.json"),
+  const [tickets, kanbanStacks] = await Promise.all([
+    readJSONFileAsync(JSON_FILE_PATH.tickets),
+    readJSONFileAsync(JSON_FILE_PATH.kanbanStacks),
   ]).catch((err) => {
     throw new InternalServerError({ name: "FILE_ACCESS_ERROR", message: err });
   });
-  return { kanbanItems, kanbanStacks } as KanbanBoardData;
+
+  return { tickets, kanbanStacks } as {
+    tickets: TTicketSchema[];
+    kanbanStacks: TKanbanStackSchema[];
+  };
 };
 
-export type KanbanBoardDatas = kanbanStackSchema[];
 export default class KanbanService {
-  static async getKanbanBoardDatas() {
-    const { kanbanItems, kanbanStacks } = await getKanbanData();
-    const kanbanBoardDatas = kanbanStacks.map((stack) => ({
-      style: stack.style,
+  static async getKanbanBoards(): Promise<TKanbanStackSchema[]> {
+    const { tickets, kanbanStacks } = await getKanbanData();
+
+    const kanbanBoards = kanbanStacks.map((stack) => ({
       title: stack.title,
       status: stack.status,
-      items: kanbanItems.filter((item) => item.status === stack.status),
-    }));
+      style: stack.style,
+      tickets: tickets.filter((item) => item.status === stack.status),
+    })) as TKanbanStackSchema[];
 
-    return kanbanBoardDatas;
+    return kanbanBoards;
   }
 
-  static async getKanbanBoardDetail(id: string) {
-    const { kanbanItems } = await getKanbanData();
-    const findedItem = kanbanItems.find((item) => item.id === Number(id));
+  static async getTicket(id: string): Promise<TTicketSchema> | Throwable {
+    const { tickets } = await getKanbanData();
+    const findedTicket = tickets.find((item) => item.id === Number(id));
 
-    if (!findedItem) return null;
-
-    return findedItem;
-  }
-
-  static async updateKanbanBoardDetail(
-    id: string,
-    updatedData: Omit<kanbanItemSchema, "id" | "created_at" | "updated_at">
-  ) {
-    const { kanbanItems } = await getKanbanData();
-    const findedIndex = kanbanItems.findIndex((item) => item.id === Number(id));
-    if (findedIndex === -1) {
-      // TODO: 에러 인스턴스 생성
-      throw new Error("Item not found");
+    if (!findedTicket) {
+      throw new InternalServerError({
+        name: "TICKET_ID_NOT_EXIST",
+        message: `ticket id ${id} is not exist!`,
+      });
     }
 
-    const updatedItem: kanbanItemSchema = {
-      ...kanbanItems[findedIndex],
+    return findedTicket;
+  }
+
+  static async updateTicket(
+    id: string,
+    updatedData: Omit<TTicketSchema, "id" | "created_at" | "updated_at">
+  ): Promise<TTicketSchema> | Throwable {
+    const { tickets } = await getKanbanData();
+    const findedIndex = tickets.findIndex((item) => item.id === Number(id));
+
+    if (findedIndex === -1) {
+      throw new InternalServerError({
+        name: "TICKET_ID_NOT_EXIST",
+        message: `ticket id ${id} is not exist!`,
+      });
+    }
+
+    const updatedItem: TTicketSchema = {
+      ...tickets[findedIndex],
       ...updatedData,
       updated_at: new Date().toISOString(),
     };
 
-    kanbanItems[findedIndex] = updatedItem;
+    tickets[findedIndex] = updatedItem;
+    await writeJSONFileAsync(JSON_FILE_PATH.tickets, tickets);
 
-    await writeJSONFileAsync("/static/kanban-items.json", kanbanItems);
     return updatedItem;
   }
 
-  static async deleteKanbanItem(id: string) {
-    const { kanbanItems } = await getKanbanData();
-    const findedIndex = kanbanItems.findIndex((item) => item.id === Number(id));
+  static async deleteTicket(id: string): Promise<boolean> | Throwable {
+    const { tickets } = await getKanbanData();
+    const findedIndex = tickets.findIndex((item) => item.id === Number(id));
+
     if (findedIndex === -1) {
-      // TODO: 에러 인스턴스 생성
-      throw new Error("Item not found");
+      throw new InternalServerError({
+        name: "TICKET_ID_NOT_EXIST",
+        message: `ticket id ${id} is not exist!`,
+      });
     }
 
-    kanbanItems.splice(findedIndex, 1);
+    tickets.splice(findedIndex, 1);
 
-    await writeJSONFileAsync("/static/kanban-items.json", kanbanItems);
+    await writeJSONFileAsync(JSON_FILE_PATH.tickets, tickets);
     return true;
   }
 }

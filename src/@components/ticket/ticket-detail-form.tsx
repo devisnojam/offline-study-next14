@@ -1,8 +1,8 @@
 "use client";
 
 import { useModalProvider } from "@/@providers/modal-provider";
-import { kanbanItemSchema } from "@/@schema/kanban.schema";
-import { APIResponseBody } from "@/@types/api.type";
+import { TTicketSchema } from "@/@schema/kanban.schema";
+import { APIResponseBody } from "@/@types/type";
 import {
   KanbanItemValidationFormData,
   kanbanItemValidationSchema,
@@ -23,7 +23,7 @@ import { PropsWithChildren } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Props {
-  formData: kanbanItemSchema;
+  formData: TTicketSchema;
 }
 
 export default function TicketDetailForm({
@@ -39,12 +39,13 @@ export default function TicketDetailForm({
   const onSubmit: SubmitHandler<KanbanItemValidationFormData> = async (
     data
   ) => {
-    const response = await fetch(`/api/ticket/${formData.id}`, {
+    const result = await fetch(`/api/ticket/${formData.id}`, {
       method: "PUT",
       body: JSON.stringify(data),
-    });
-    const result =
-      (await response.json()) as APIResponseBody<KanbanItemValidationFormData>;
+    })
+      .then((response) => response.json())
+      .then((result) => result as APIResponseBody<TTicketSchema>);
+
     if (result.success) {
       alert("저장 되었습니다.");
       onCloseModal("/board");

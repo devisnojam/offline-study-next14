@@ -1,13 +1,25 @@
-export type APIResponseBody<T> = {
+interface BaseAPIResponseBody {
   success: boolean;
   message?: string;
-  data: T;
-};
+  result?: unknown;
+}
+
+export interface APIResponseBody<D> extends BaseAPIResponseBody {
+  success: true;
+  message?: string;
+  result: D;
+}
+
+export interface APIErrorResponseBody extends BaseAPIResponseBody {
+  success: false;
+  message: string;
+  result?: unknown;
+}
 
 export interface ServerActionResultSchema<T> {
   success: boolean;
   message?: string;
-  data: T;
+  result: T;
 }
 
 /** 가독성 타입 */

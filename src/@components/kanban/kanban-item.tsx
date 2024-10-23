@@ -1,16 +1,17 @@
 "use client";
 
-import { kanbanItemSchema } from "@/@schema/kanban.schema";
+import { TTicketSchema } from "@/@schema/kanban.schema";
 import { Box, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
 import ConfirmDialog from "../confirm-dialog";
 import { useRouter } from "next/navigation";
+import { APIResponseBody } from "@/@types/type";
 
 interface Props {
-  data: kanbanItemSchema;
+  ticketData: TTicketSchema;
 }
 
-export default function KanbanItem({ data }: Props) {
+export default function KanbanItem({ ticketData }: Props) {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -20,10 +21,11 @@ export default function KanbanItem({ data }: Props) {
   };
 
   const deleteItem = async () => {
-    const response = await fetch(`/api/ticket/${data.id}`, {
+    const result = await fetch(`/api/ticket/${ticketData.id}`, {
       method: "DELETE",
-    });
-    const result = await response.json();
+    })
+      .then((response) => response.json())
+      .then((result) => result as APIResponseBody<null>);
 
     if (result.success) {
       alert(result.message);
@@ -61,10 +63,10 @@ export default function KanbanItem({ data }: Props) {
           gap="2px"
         >
           <Text as="span" fontSize="14px">
-            {data.title}
+            {ticketData.title}
           </Text>
           <Text as="span" fontSize="14px">
-            {data.due_date}
+            {ticketData.due_date}
           </Text>
         </Box>
 
@@ -89,7 +91,7 @@ export default function KanbanItem({ data }: Props) {
       <ConfirmDialog
         isOpen={isOpen}
         title="티켓 삭제"
-        description={`선택하신 티켓을 삭제하시겠습니까?\n\n선택한 티켓 제목: ${data.title}`}
+        description={`선택하신 티켓을 삭제하시겠습니까?\n\n선택한 티켓 제목: ${ticketData.title}`}
         confirmButtonText="삭제하기"
         onConfirm={deleteItem}
         onClose={onClose}
