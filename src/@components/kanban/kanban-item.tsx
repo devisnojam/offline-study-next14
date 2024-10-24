@@ -1,6 +1,6 @@
 "use client";
 
-import { TTicketSchema } from "@/@schema/kanban.schema";
+import { TTicketSchema } from "@/@schema/kanban.type";
 import { Box, IconButton, Text, useDisclosure } from "@chakra-ui/react";
 import Image from "next/image";
 import ConfirmDialog from "../confirm-dialog";

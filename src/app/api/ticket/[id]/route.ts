@@ -3,7 +3,10 @@ import {
   UnknownErrorHandler,
 } from "@/@libs/internal-error";
 import KanbanService from "@/@services/kanban.service";
-import { APIErrorResponseBody, APIResponseBody } from "@/@types/type";
+import {
+  APIErrorResponseBody,
+  APIResponseBody,
+} from "@/@types/server-response.type";
 import { kanbanItemValidationSchema } from "@/@validations/kanban-item.validation";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";

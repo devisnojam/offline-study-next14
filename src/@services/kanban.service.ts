@@ -1,4 +1,4 @@
-import { TTicketSchema, TKanbanStackSchema } from "@/@schema/kanban.schema";
+import { TTicketSchema, TKanbanStackSchema } from "@/@schema/kanban.type";
 import { readJSONFileAsync, writeJSONFileAsync } from "@/@libs/file-handler";
 import { InternalServerError } from "@/@libs/internal-error";
 import { Throwable } from "@/@types/type";

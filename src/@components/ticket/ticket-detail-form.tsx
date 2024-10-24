@@ -1,8 +1,8 @@
 "use client";
 
 import { useModalProvider } from "@/@providers/modal-provider";
-import { TTicketSchema } from "@/@schema/kanban.schema";
-import { APIResponseBody } from "@/@types/type";
+import { TTicketSchema } from "@/@types/schema.type";
+import { APIResponseBody } from "@/@types/server-response.type";
 import {
   KanbanItemValidationFormData,
   kanbanItemValidationSchema,

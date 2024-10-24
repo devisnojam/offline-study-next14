@@ -1,6 +1,6 @@
 import { TicketDetailForm } from "@/@components/ticket";
-import { TTicketSchema } from "@/@schema/kanban.schema";
-import { APIResponseBody } from "@/@types/type";
+import { TTicketSchema } from "@/@types/schema.type";
+import { APIResponseBody } from "@/@types/server-response.type";
 
 interface Props {
   params: Promise<{ id: string }>;

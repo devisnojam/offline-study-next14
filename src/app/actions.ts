@@ -1,20 +1,15 @@
 "use server";
 
-import KanbanService from "@/@services/kanban.service";
-import { Redirect } from "@/@types/type";
+import { Redirect } from "@/@types/server-response.type";
+import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 
 export async function excuteRedirect(
   pathname: string,
   type?: keyof typeof RedirectType
 ): Promise<Redirect> {
-  redirect(pathname, type ? RedirectType[type] : undefined);
-}
+  console.log("Server action - redirect");
 
-export async function getBoardDatas() {
-  return KanbanService.getKanbanBoards();
-}
-
-export async function getTicketDetailData(id: string) {
-  return KanbanService.getTicket(id);
+  revalidatePath("/", "layout");
+  redirect(pathname, type ? RedirectType[type] : RedirectType.replace);
 }

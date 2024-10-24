@@ -1,5 +1,5 @@
 import { KanbanGroup, KanbanItem, KanbanStack } from "@/@components/kanban";
-import { TKanbanStackSchema } from "@/@schema/kanban.schema";
+import { TKanbanStackSchema } from "@/@schema/kanban.type";
 import { APIResponseBody } from "@/@types/type";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";

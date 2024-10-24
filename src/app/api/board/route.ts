@@ -1,6 +1,6 @@
 import { UnknownErrorHandler } from "@/@libs/internal-error";
 import KanbanService from "@/@services/kanban.service";
-import { APIResponseBody } from "@/@types/type";
+import { APIResponseBody } from "@/@types/server-response.type";
 import { StatusCodes } from "http-status-codes";
 
 export async function GET() {
